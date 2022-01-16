@@ -1,11 +1,23 @@
-import "./styles/main.css";
+import React, { useState } from "react"
+import "./styles/main.css"
+import Switch from "./components/Switch"
 
 function App() {
-  return (
-    <div className='App'>
-      <h1>Teesting GIT!</h1>
-    </div>
-  );
+    const [isToggled, setIsToggled] = useState(false)
+    return (
+        <div className='App'>
+            <body className=''>
+                <main>
+                    <div className='container'>
+                        <Switch
+                            isToggled={isToggled}
+                            onToggle={() => setIsToggled(!isToggled)}
+                        />
+                    </div>
+                </main>
+            </body>
+        </div>
+    )
 }
 
-export default App;
+export default App
