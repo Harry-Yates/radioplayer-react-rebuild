@@ -6,13 +6,17 @@ function App() {
     const [isToggled, setIsToggled] = useState(false)
     return (
         <div className='App'>
-            <body className=''>
+            <body className={isToggled ? "dark" : "light"}>
                 <main>
                     <div className='container'>
-                        <Switch
-                            isToggled={isToggled}
-                            onToggle={() => setIsToggled(!isToggled)}
-                        />
+                        <div ClassName={isToggled ? "dark" : "light"}>
+                            <Switch
+                                isToggled={isToggled}
+                                onToggle={() =>
+                                    setIsToggled(!isToggled)
+                                }
+                            />
+                        </div>
                     </div>
                 </main>
             </body>
