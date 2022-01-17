@@ -291,13 +291,13 @@ button {
     font-weight: var(--fw-bolder);
 }
 
-#album-container {
+.album-container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
 }
-#album-container .dot {
+.album-container .dot {
     width: 45px;
     height: 45px;
     position: absolute;
@@ -307,7 +307,7 @@ button {
     box-shadow: var(--clr-text-inner-shadow);
 }
 
-#album-container > img {
+.album-container > img {
     object-fit: cover;
     height: 220px;
     width: 220px;

@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import "./styles/main.css"
 import Switch from "./components/Switch"
+import Artwork from "./components/Artwork"
+import Weather from "./components/Weather"
 
 function App() {
     const [isToggled, setIsToggled] = useState(false)
@@ -9,14 +11,12 @@ function App() {
             <body className={isToggled ? "dark" : "light"}>
                 <main>
                     <div className='container'>
-                        <div ClassName={isToggled ? "dark" : "light"}>
-                            <Switch
-                                isToggled={isToggled}
-                                onToggle={() =>
-                                    setIsToggled(!isToggled)
-                                }
-                            />
-                        </div>
+                        <Switch
+                            isToggled={isToggled}
+                            onToggle={() => setIsToggled(!isToggled)}
+                        />
+                        <Artwork search='band' />
+                        <Weather location='Bagarmossen' />
                     </div>
                 </main>
             </body>

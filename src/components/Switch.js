@@ -13,7 +13,7 @@ const Switch = ({ isToggled, onToggle }) => {
                             checked={isToggled}
                             onChange={onToggle}
                         />
-                        <label for='switch-2'></label>
+                        <label htmlFor='switch-2'></label>
                     </div>
                 </div>
             </div>
