@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import Player from "./Player"
 import "../styles/main.css"
 
 export default function RadioPlayerLower({ id }) {
@@ -28,46 +29,7 @@ export default function RadioPlayerLower({ id }) {
                         Next
                     </span>
                 </div>
-
-                <div className='volume-controls'>
-                    <button
-                        name='mute'
-                        className='button mute-button'
-                        aria-label='Mute/unmute'>
-                        <i
-                            className='fas fa-volume-down'
-                            aria-hidden></i>
-                    </button>
-                    <input
-                        type='range'
-                        name='volume'
-                        className='volume'
-                        min='0'
-                        max='1'
-                        step='0.05'
-                        value='0.2'
-                        aria-label='Volume'
-                    />
-                </div>
-
-                <div className='circle-container'>
-                    <button className='button play-pause-button'></button>
-                    <div className='circle'>
-                        <span className='circle__btn shadow'>
-                            <audio
-                                src='http://sverigesradio.se/topsy/direkt/srapi/164.mp3'
-                                id='stream'></audio>
-                            <ion-icon
-                                className='pause visibility'
-                                name='pause'></ion-icon>
-                            <ion-icon
-                                className='play visibility'
-                                name='play'></ion-icon>
-                        </span>
-                        <span className='circle__back-1 paused'></span>
-                        <span className='circle__back-2 paused'></span>
-                    </div>
-                </div>
+                <Player />
             </>
         )
     }

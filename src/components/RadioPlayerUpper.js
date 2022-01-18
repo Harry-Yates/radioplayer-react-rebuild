@@ -14,15 +14,15 @@ export default function RadioPlayerUpper({ id }) {
 
     if (audioData) {
         return (
-            <div class='songDetails'>
+            <div className='songDetails'>
                 <br></br>
-                <span class='currently-playing-artist-previous'>
+                <span className='currently-playing-artist-previous'>
                     {audioData.playlist.previoussong.title}
                 </span>
-                <span class='currently-playing-artist'>
+                <span className='currently-playing-artist'>
                     {audioData.playlist.previoussong.artist}
                 </span>
-                <span class='currently-playing-artist-next'>
+                <span className='currently-playing-artist-next'>
                     ED SHEERAN
                 </span>
             </div>
