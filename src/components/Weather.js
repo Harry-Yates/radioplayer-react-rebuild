@@ -5,11 +5,14 @@ export default function Weather({ location }) {
     const [weatherData, setWeatherData] = useState(null)
 
     useEffect(() => {
-        fetch(
-            `https://apis.scrimba.com/openweathermap/data/2.5/weather?q=${location}&units=metric`,
-        )
-            .then(response => response.json())
-            .then(setWeatherData)
+        const interval = setInterval(() => {
+            fetch(
+                `https://apis.scrimba.com/openweathermap/data/2.5/weather?q=${location}&units=metric`,
+            )
+                .then(response => response.json())
+                .then(setWeatherData)
+        }, 5000)
+        return () => clearInterval(interval)
     }, [location])
 
     if (weatherData) {
@@ -31,5 +34,5 @@ export default function Weather({ location }) {
             </div>
         )
     }
-    return <div>No Weather Data</div>
+    return <div className='intern'> Intern checking weather</div>
 }

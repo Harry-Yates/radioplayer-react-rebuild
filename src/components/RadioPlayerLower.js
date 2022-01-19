@@ -1,39 +1,44 @@
 import React, { useState, useEffect } from "react"
-import Player from "./Player"
 import "../styles/main.css"
 
-export default function RadioPlayerLower({ id }) {
-    const [audioData, setAudioData] = useState(null)
+export default function RadioPlayerLower({ id2 }) {
+    const [audioDataSong, setAudioDataSong] = useState(null)
 
     useEffect(() => {
-        fetch(
-            `https://api.sr.se/api/v2/playlists/rightnow?format=json&indent=true&channelid=${id}`,
-        )
-            .then(response => response.json())
-            .then(setAudioData)
-    }, [id])
+        const interval = setInterval(() => {
+            fetch(
+                `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id2}&format=json`,
+            )
+                .then(response => response.json())
+                .then(setAudioDataSong)
+            console.log("Cheeky gander for Song data")
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [id2])
 
-    if (audioData) {
+    if (!audioDataSong) return null
+    if (audioDataSong) {
         return (
             <>
                 <div
                     className='currently-playing'
                     aria-label='Currently playing'>
                     <span className='currently-playing-song-previous'>
-                        Prev
+                        {audioDataSong.song[1].title}
                     </span>
                     <span className='currently-playing-song'>
-                        SONG
+                        {audioDataSong.song[0].title
+                            ? audioDataSong.song[0].title
+                            : "DJ TALKING"}
                     </span>
                     <span className='currently-playing-song-next'>
-                        Next
+                        {audioDataSong.song[2].title}
                     </span>
                 </div>
-                <Player />
             </>
         )
     }
-    return <div>No Audio Data</div>
+    return <div></div>
 }
 
 // {

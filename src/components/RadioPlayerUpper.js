@@ -4,31 +4,44 @@ import "../styles/main.css"
 export default function RadioPlayerUpper({ id }) {
     const [audioData, setAudioData] = useState(null)
 
+    // useEffect(() => {
+    //     fetch(
+    //         `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id}&format=json`,
+    //     )
+    //         .then(response => response.json())
+    //         .then(setAudioData)
+    // }, [id])
+
     useEffect(() => {
-        fetch(
-            `https://api.sr.se/api/v2/playlists/rightnow?format=json&indent=true&channelid=${id}`,
-        )
-            .then(response => response.json())
-            .then(setAudioData)
+        const interval = setInterval(() => {
+            fetch(
+                `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id}&format=json`,
+            )
+                .then(response => response.json())
+                .then(setAudioData)
+            // console.log("Quick little check for Artist data")
+        }, 1000)
+        return () => clearInterval(interval)
     }, [id])
 
+    if (!audioData) return null
     if (audioData) {
         return (
             <div className='songDetails'>
                 <br></br>
                 <span className='currently-playing-artist-previous'>
-                    {audioData.playlist.previoussong.title}
+                    {audioData.song[1].artist}
                 </span>
                 <span className='currently-playing-artist'>
-                    {audioData.playlist.previoussong.artist}
+                    {audioData.song[0].artist}
                 </span>
                 <span className='currently-playing-artist-next'>
-                    ED SHEERAN
+                    {audioData.song[2].artist}
                 </span>
             </div>
         )
     }
-    return <div>No Audio Data</div>
+    return <div></div>
 }
 
 // {

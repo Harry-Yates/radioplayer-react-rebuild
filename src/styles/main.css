@@ -43,7 +43,7 @@ body.dark .switch__2 {
 main {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 100%;
@@ -54,11 +54,28 @@ main {
     height: 80vh;
     min-height: 896px;
     min-width: 375px;
+    max-width: 500px;
     background: var(--clr-greyLight-1);
     border-radius: 3rem;
     box-shadow: 0.8rem 0.8rem 1.4rem var(--clr-greyLight-2),
         -0.2rem -0.2rem 1.8rem var(--clr-white);
     overflow: hidden;
+}
+.playlistContainer {
+    height: 80vh;
+    min-height: 896px;
+    min-width: 375px;
+    background: var(--clr-greyLight-1);
+    border-radius: 3rem;
+    box-shadow: 0.8rem 0.8rem 1.4rem var(--clr-greyLight-2),
+        -0.2rem -0.2rem 1.8rem var(--clr-white);
+    overflow: hidden;
+    margin-left: 4rem;
+}
+
+.playlistContainer .hidden {
+    display: none;
+    visibility: hidden;
 }
 
 * {
@@ -381,6 +398,11 @@ button {
 }
 .circle__back-2.paused {
     animation-play-state: paused;
+}
+
+.intern {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 /*# sourceMappingURL=main.css.map */

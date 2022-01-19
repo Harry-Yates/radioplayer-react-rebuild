@@ -9,13 +9,23 @@ export default function Artwork({ search }) {
     useEffect(() => {
         if (!search) return
         setLoading(true)
+        const interval = setInterval(() => {
+            fetch(
+                `https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=${search}`,
+            )
+                .then(response => response.json())
+                .then(setimages)
+                .then(() => setLoading(false))
+                .catch(setError)
+        }, 30000)
         fetch(
             `https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=${search}`,
         )
-            .then(res => res.json())
+            .then(response => response.json())
             .then(setimages)
             .then(() => setLoading(false))
             .catch(setError)
+        return () => clearInterval(interval)
     }, [search])
 
     if (loading) return <h3>Loading...</h3>

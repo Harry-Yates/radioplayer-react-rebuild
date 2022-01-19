@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react"
 import "../styles/main.css"
 import "../styles/player.css"
-import { BsArrowLeftShort } from "react-icons/bs"
-import { BsArrowRightShort } from "react-icons/bs"
+import "../styles/Playlist.css"
+import "../components/Artwork"
+import { SiTimescale } from "react-icons/si"
+import { BsFillMusicPlayerFill } from "react-icons/bs"
 import { FaPlay } from "react-icons/fa"
 import { FaPause } from "react-icons/fa"
 
-const Player = () => {
+const Player = ({ isHidden, setIsHidden }) => {
     // state
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState(0)
@@ -59,21 +61,21 @@ const Player = () => {
     const changePlayerCurrentTime = () => {
         progressBar.current.style.setProperty(
             "--seek-before-width",
-            `${(progressBar.current.value / duration) * 100}%`,
+            `${(progressBar.current.value / duration) * 90}%`,
         )
         setCurrentTime(progressBar.current.value)
     }
 
     const backThirty = () => {
         progressBar.current.value = Number(
-            progressBar.current.value - 30,
+            progressBar.current.value - 10,
         )
         changeRange()
     }
 
     const forwardThirty = () => {
         progressBar.current.value = Number(
-            progressBar.current.value + 30,
+            progressBar.current.value + 10,
         )
         changeRange()
     }
@@ -110,7 +112,7 @@ const Player = () => {
                 <button
                     className={"forwardBackward"}
                     onClick={backThirty}>
-                    <BsArrowLeftShort /> 30
+                    <SiTimescale />
                 </button>
                 <button
                     onClick={togglePlayPause}
@@ -124,8 +126,14 @@ const Player = () => {
                 <button
                     className={"forwardBackward"}
                     onClick={forwardThirty}>
-                    30 <BsArrowRightShort />
+                    <BsFillMusicPlayerFill />
                 </button>
+                <input
+                    id='switch-3'
+                    type='checkbox'
+                    checked={isHidden}
+                    onChange={setIsHidden}
+                />
             </div>
         </div>
     )
