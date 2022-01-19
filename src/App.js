@@ -15,7 +15,7 @@ function App() {
     const [isHidden, setIsHidden] = useState(true)
     return (
         <div className='App'>
-            <body className={isToggled ? "dark" : "light"}>
+            <div className={isToggled ? "dark" : "light"}>
                 <main>
                     <div className='container'>
                         <Switch
@@ -36,7 +36,7 @@ function App() {
                         <Playlist id3='164' />
                     </div>
                 </main>
-            </body>
+            </div>
         </div>
     )
 }
