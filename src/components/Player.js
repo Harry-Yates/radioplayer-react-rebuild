@@ -73,13 +73,6 @@ const Player = ({ isHidden, setIsHidden }) => {
         changeRange()
     }
 
-    const forwardThirty = () => {
-        progressBar.current.value = Number(
-            progressBar.current.value + 10,
-        )
-        changeRange()
-    }
-
     return (
         <div className={"player"}>
             <audio
@@ -125,15 +118,9 @@ const Player = ({ isHidden, setIsHidden }) => {
                 </button>
                 <button
                     className={"forwardBackward"}
-                    onClick={forwardThirty}>
+                    onClick={setIsHidden}>
                     <BsFillMusicPlayerFill />
                 </button>
-                <input
-                    id='switch-3'
-                    type='checkbox'
-                    checked={isHidden}
-                    onChange={setIsHidden}
-                />
             </div>
         </div>
     )

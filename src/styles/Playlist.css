@@ -1,6 +1,7 @@
 .hidden {
     display: none;
     visibility: hidden;
+    transition: all 8s ease;
 }
 
 .playlist {
