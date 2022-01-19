@@ -1,4 +1,4 @@
-# RadioPlayer Project Rebuild in React
+# RadioPlayer project rebuilt in React
 
 Hyper Island - The First Web App Module - Brief 5.
 
@@ -19,7 +19,7 @@ https://user-images.githubusercontent.com/82885837/150146067-05f4cde1-4785-4834-
 
 ### :mechanical_arm: Solution:
 
-Crash course in React, get to a MPV in a week and intergrate some new features.
+Crash course in React, get to an MPV in a week and integrate new features.
 
 ### :man_student: Learnings:
 
