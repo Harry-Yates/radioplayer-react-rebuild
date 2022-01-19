@@ -2,7 +2,7 @@
 
 Hyper Island - The First Web App Module - Brief 5.
 
-https://user-images.githubusercontent.com/82885837/150146067-05f4cde1-4785-4834-810d-b0c3dc6b94ab.mp4
+https://user-images.githubusercontent.com/82885837/150193942-20eeadf0-a4a5-4281-b231-71746966d1ae.mp4
 
 ### :open_file_folder: The Brief:
 
@@ -10,7 +10,7 @@ https://user-images.githubusercontent.com/82885837/150146067-05f4cde1-4785-4834-
 
 ### :hourglass_flowing_sand: Time spent / Deadline:
 
-1 week.
+2 weeks.
 
 ### :dart: Goals:
 
@@ -24,21 +24,33 @@ Crash course in React, get to an MPV in a week and integrate new features.
 ### :man_student: Learnings:
 
 -   React
-    -   Installing Create React App and generating the project
-    -   Refactoring elements using JSX
-    -   Creating React components
-    -   Adding Keys
-    -   Destructuring arrays and objects
-    -   Working with the useState Hook and useEffect
-    -   Displaying data from an API
-    -   Handling loading states
-    -   Deploying to Git Hub Pages
+    -   Installing Create React App and generating the project.
+    -   Refactoring elements using JSX.
+    -   Creating components.
+    -   Adding Keys.
+    -   Destructuring arrays and objects.
+    -   Working with the useState Hook and useEffect.
+    -   Fetch/display data from multiple APIs.
+    -   Handling loading states.
+    -   Deploying to Git Hub Pages & Netlify.
 
-### :interrobang: Future Improvements & Current Bugs:
+### :interrobang: Future Improvements:
 
-React Router
+-   React Router
 
--   Would have been handy to spend more time with React Router.
+    -   The App is static, but I ran out of time to implement React Router and set up different routes to pages.
+
+-   Test Driven Development
+
+    -   I could have made better use of the Jest testing platform and React testing library.
+    -   Made good use of Strict Mode to follow best practices and flag areas for improvement.
+
+-   Vanilla JS
+
+    -   The project highlighted areas I need to improve on, such as scoping, callbacks, passing functions, short circuiting and array methods.
+
+-   Conditional Operators
+    -   I couldn't get all of these operating how I'd like, so if there are less than four songs in the API playlist, the App crashes :grimacing:.
 
 ### :computer: Tech used in this specific repository:
 

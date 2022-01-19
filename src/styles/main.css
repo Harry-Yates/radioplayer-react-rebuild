@@ -52,6 +52,7 @@ main {
     align-items: center;
     height: 100%;
     text-align: center;
+    zoom: 0.75;
 }
 
 .container {
