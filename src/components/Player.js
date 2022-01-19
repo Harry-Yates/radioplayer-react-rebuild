@@ -105,6 +105,7 @@ const Player = ({ isHidden, setIsHidden }) => {
                 <button
                     className={"forwardBackward"}
                     onClick={backThirty}>
+                    ``
                     <SiTimescale />
                 </button>
                 <button
