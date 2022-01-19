@@ -22,7 +22,7 @@ export default function Weather({ location }) {
                     <img
                         alt={"weatherIcon"}
                         className='weather__Icon'
-                        src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                        src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
                     />
                     <p className='weather__location'>
                         {weatherData.name}

@@ -77,7 +77,7 @@ const Player = ({ isHidden, setIsHidden }) => {
         <div className={"player"}>
             <audio
                 ref={player}
-                src='http://sverigesradio.se/topsy/direkt/srapi/164.mp3'
+                src='https://sverigesradio.se/topsy/direkt/srapi/164.mp3'
                 preload='metadata'></audio>
 
             <div className={"playerContainer"}>
