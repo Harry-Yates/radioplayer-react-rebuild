@@ -3,18 +3,39 @@ import "../styles/main.css"
 
 export default function RadioPlayerLower({ id2 }) {
     const [audioDataSong, setAudioDataSong] = useState(null)
+    const [loading, setLoading] = useState(null)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
+        if (!id2) return
+        setLoading(true)
         const interval = setInterval(() => {
             fetch(
                 `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id2}&format=json`,
             )
                 .then(response => response.json())
                 .then(setAudioDataSong)
-            console.log("Cheeky gander for Song data")
-        }, 1000)
+                .then(() => setLoading(false))
+                .catch(setError)
+            // console.log("Cheeky gander for Song data")
+        }, 4000)
         return () => clearInterval(interval)
     }, [id2])
+    if (loading)
+        return (
+            <div className='songDetails'>
+                <br></br>
+                <span className='currently-playing-song-previous'>
+                    PREV
+                </span>
+                <span className='currently-playing-song'>SONG</span>
+                <span className='currently-playing-song-next'>
+                    NEXT
+                </span>
+            </div>
+        )
+    if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>
+    if (!id2) return null
 
     if (!audioDataSong) return null
     if (audioDataSong) {

@@ -11,7 +11,7 @@ export default function Weather({ location }) {
             )
                 .then(response => response.json())
                 .then(setWeatherData)
-        }, 5000)
+        }, 4000)
         return () => clearInterval(interval)
     }, [location])
 
