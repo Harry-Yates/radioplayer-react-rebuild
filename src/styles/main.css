@@ -38,6 +38,7 @@ body {
         inset -0.2rem -0.2rem 0.5rem var(--clr-white);
     height: 100vh;
     width: 100vw;
+    color: #fff;
 }
 
 body.dark .switch__2 {
