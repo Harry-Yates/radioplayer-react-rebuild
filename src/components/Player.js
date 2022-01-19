@@ -105,7 +105,6 @@ const Player = ({ isHidden, setIsHidden }) => {
                 <button
                     className={"forwardBackward"}
                     onClick={backThirty}>
-                    ``
                     <SiTimescale />
                 </button>
                 <button
@@ -128,23 +127,3 @@ const Player = ({ isHidden, setIsHidden }) => {
 }
 
 export default Player
-
-/* <div className='circle-container'>
-<button className='button play-pause-button'></button>
-<div className='circle'>
-	<span className='circle__btn shadow'>
-		<audio
-			src='http://sverigesradio.se/topsy/direkt/srapi/164.mp3'
-			id='stream'></audio>
-		<ion-icon
-			className='pause visibility'
-			name='pause'></ion-icon>
-		<ion-icon
-			className='play visibility'
-			name='play'></ion-icon>
-	</span>
-	<span className='circle__back-1 paused'></span>
-	<span className='circle__back-2 paused'></span>
-</div>
-</div> */
-// } */}
