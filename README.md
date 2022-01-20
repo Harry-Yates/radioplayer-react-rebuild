@@ -19,7 +19,7 @@ https://user-images.githubusercontent.com/82885837/150193942-20eeadf0-a4a5-4281-
 
 ### :mechanical_arm: Solution:
 
-Crash course in React, get to an MPV in a week and integrate new features.
+Nail down the React fundamentals, get to an MPV in a week and integrate new features.
 
 ### :man_student: Learnings:
 
