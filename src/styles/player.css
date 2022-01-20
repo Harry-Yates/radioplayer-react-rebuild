@@ -69,6 +69,7 @@
     box-shadow: 0.3rem 0.3rem 0.6rem var(--clr-greyLight-2),
         -0.2rem -0.2rem 0.5rem var(--clr-white);
     margin-top: 1.5rem;
+    cursor: pointer;
 }
 
 .playPause:active {
