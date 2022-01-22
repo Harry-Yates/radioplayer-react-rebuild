@@ -24,15 +24,15 @@ Nail down the React fundamentals, get to an MPV in a week and integrate new feat
 ### :man_student: Learnings:
 
 -   React
-    -   Installing Create React App and generating the project.
-    -   Refactoring elements using JSX.
-    -   Creating components.
-    -   Adding Keys.
-    -   Destructuring arrays and objects.
-    -   Working with the useState Hook and useEffect.
-    -   Fetch/display data from multiple APIs.
-    -   Handling loading states.
-    -   Deploying to Git Hub Pages & Netlify.
+    -   [x] Installing Create React App and generating the project.
+    -   [x] Refactoring elements using JSX.
+    -   [x] Creating components.
+    -   [x] Adding Keys.
+    -   [x] Destructuring arrays and objects.
+    -   [x] Working with the useState Hook and useEffect.
+    -   [x] Fetch/display data from multiple APIs.
+    -   [x] Handling loading states.
+    -   [x] Deploying to Git Hub Pages & Netlify.
 
 ### :interrobang: Future Improvements:
 
