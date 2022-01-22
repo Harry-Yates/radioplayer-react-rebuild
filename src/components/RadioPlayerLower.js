@@ -45,15 +45,15 @@ export default function RadioPlayerLower({ id2 }) {
                     className='currently-playing'
                     aria-label='Currently playing'>
                     <span className='currently-playing-song-previous'>
-                        {audioDataSong.song[1].title}
+                        {audioDataSong.song?.[1]?.title}
                     </span>
                     <span className='currently-playing-song'>
-                        {audioDataSong.song[0].title
-                            ? audioDataSong.song[0].title
+                        {audioDataSong.song?.[0]?.title
+                            ? audioDataSong.song?.[0]?.title
                             : "DJ TALKING"}
                     </span>
                     <span className='currently-playing-song-next'>
-                        {audioDataSong.song[2].title}
+                        {audioDataSong.song?.[2]?.title}
                     </span>
                 </div>
             </>

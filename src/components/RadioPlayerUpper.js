@@ -46,13 +46,13 @@ export default function RadioPlayerUpper({ id }) {
             <div className='songDetails'>
                 <br></br>
                 <span className='currently-playing-artist-previous'>
-                    {audioData.song[1].artist}
+                    {audioData.song?.[1]?.artist}
                 </span>
                 <span className='currently-playing-artist'>
-                    {audioData.song[0].artist}
+                    {audioData.song?.[0]?.artist}
                 </span>
                 <span className='currently-playing-artist-next'>
-                    {audioData.song[2].artist}
+                    {audioData.song?.[2]?.artist}
                 </span>
             </div>
         )

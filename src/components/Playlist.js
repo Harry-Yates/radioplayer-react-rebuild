@@ -25,11 +25,11 @@ export default function Playlist({ id3 }) {
                         <span>1</span>
                         <div className='playlistItem-detail'>
                             <span>Song: </span>
-                            {channelData.song[0].title}
+                            {channelData.song?.[0]?.title}
                         </div>
                         <div className='playlistItem-detail'>
                             <span>Artist: </span>
-                            {channelData.song[0].artist}
+                            {channelData.song?.[0]?.artist}
                         </div>
                         <hr className='hr'></hr>
                     </div>
@@ -37,11 +37,11 @@ export default function Playlist({ id3 }) {
                         <span>2</span>
                         <div className='playlistItem-detail'>
                             <span>Song: </span>
-                            {channelData.song[1].title}
+                            {channelData.song?.[1]?.title}
                         </div>
                         <div className='playlistItem-detail'>
                             <span>Artist: </span>
-                            {channelData.song[1].artist}
+                            {channelData.song?.[1]?.artist}
                         </div>
                         <hr className='hr'></hr>
                     </div>
@@ -49,11 +49,11 @@ export default function Playlist({ id3 }) {
                         <span>3</span>
                         <div className='playlistItem-detail'>
                             <span>Song: </span>
-                            {channelData.song[2].title}
+                            {channelData.song?.[2]?.title}
                         </div>
                         <div className='playlistItem-detail'>
                             <span>Artist: </span>
-                            {channelData.song[2].artist}
+                            {channelData.song?.[2]?.artist}
                         </div>
                         <hr className='hr'></hr>
                     </div>
@@ -61,11 +61,11 @@ export default function Playlist({ id3 }) {
                         <span>4</span>
                         <div className='playlistItem-detail'>
                             <span>Song: </span>
-                            {channelData.song[3].title}
+                            {channelData.song?.[3]?.title}
                         </div>
                         <div className='playlistItem-detail'>
                             <span>Artist: </span>
-                            {channelData.song[3].artist}
+                            {channelData.song?.[3]?.artist}
                         </div>
                         <hr className='hr'></hr>
                     </div>
