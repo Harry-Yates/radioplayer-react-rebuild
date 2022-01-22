@@ -51,7 +51,7 @@ Nail down the React fundamentals, get to an MPV in a week and integrate new feat
 
 -   Conditional Operators
     -   ~~I couldn't get all of these operating how I'd like, so if there are less than four songs in the API playlist, the App crashes :grimacing:.~~
-    -   :white_check_mark:  Note: Bug since fixed using optional chaining.
+    -   :white_check_mark:  Note: Bug fixed using optional chaining.
 
 ### :computer: Tech used in this specific repository:
 
