@@ -206,7 +206,9 @@ button {
     .currently-playing-artist-next,
     .currently-playing-artist-previous,
     .currently-playing-song-next,
-    .currently-playing-song-previous {
+    .currently-playing-song-previous,
+    .currentTime,
+    .duration {
         font-size: 8px;
     }
 }
