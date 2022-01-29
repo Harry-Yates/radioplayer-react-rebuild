@@ -27,18 +27,24 @@
     margin: 0 auto;
     border-radius: 1rem;
     flex-direction: column;
+    overflow-y: scroll;
 }
 
 .playlistItem {
     display: flex;
     flex-wrap: wrap;
-    padding: 2rem;
+    padding: 1.5rem;
     width: 100%;
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
     box-shadow: var(--clr-text-inner-shadow);
     border-radius: 1rem;
+    text-align: left;
+}
+
+.playlist-title {
+    margin-top: 1rem;
 }
 
 .playlistItem span {
