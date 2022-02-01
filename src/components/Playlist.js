@@ -51,7 +51,6 @@ function Playlist() {
                                     <span>Artist: </span>
                                     {channel.artist}
                                 </div>
-                                <hr className='hr'></hr>
                             </div>
                         ))}
                     </div>

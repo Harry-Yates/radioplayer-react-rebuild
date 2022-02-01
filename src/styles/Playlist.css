@@ -36,13 +36,13 @@
     flex-wrap: wrap;
     padding: 1.5rem;
     width: 100%;
-
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
     box-shadow: var(--clr-text-inner-shadow);
     border-radius: 1rem;
     text-align: left;
+    letter-spacing: 0.04rem;
 }
 
 .playlist-title {
@@ -55,14 +55,6 @@
 }
 
 .playlistItem-detail {
-    padding-top: 0.5rem;
     width: 100%;
-    padding: 0.5rem;
-}
-
-.hr {
-    width: 100%;
-    margin-top: 1rem;
-    box-shadow: 0.8rem 0.8rem 1.4rem var(--clr-greyLight-2),
-        -0.2rem -0.2rem 1.8rem var(--clr-white);
+    padding: 0.2rem;
 }
