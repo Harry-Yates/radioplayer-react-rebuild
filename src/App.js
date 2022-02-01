@@ -12,7 +12,7 @@ import RadioPlayerLower from "./components/RadioPlayerLower"
 
 function App() {
     const [isToggled, setIsToggled] = useState(false)
-    const [isHidden, setIsHidden] = useState(true)
+    const [isHidden, setIsHidden] = useState(false)
     return (
         <div className='App'>
             <div className={isToggled ? "dark" : "light"}>

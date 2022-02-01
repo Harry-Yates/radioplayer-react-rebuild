@@ -22,8 +22,6 @@ function Playlist() {
                         const channel = data.song.map(channel => ({
                             name: channel.title,
                             artist: channel.artist,
-                            albumname: channel.albumname,
-                            recordlabel: channel.recordlabel,
                         }))
                         console.log("Songs", channel)
                         setChannel(channel)
@@ -52,18 +50,6 @@ function Playlist() {
                                 <div className='playlistItem-detail'>
                                     <span>Artist: </span>
                                     {channel.artist}
-                                </div>
-                                <div className='playlistItem-detail'>
-                                    <span>Album: </span>
-                                    {channel.albumname
-                                        ? channel.albumname
-                                        : "😶‍🌫️ No Album"}
-                                </div>
-                                <div className='playlistItem-detail'>
-                                    <span>Label: </span>
-                                    {channel.recordlabel
-                                        ? channel.recordlabel
-                                        : "😶‍🌫️ No Label"}
                                 </div>
                                 <hr className='hr'></hr>
                             </div>
