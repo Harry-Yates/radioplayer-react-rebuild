@@ -62,8 +62,7 @@ main {
 }
 
 .container {
-    height: 400px;
-    min-height: 896px;
+    min-height: 900px;
     min-width: 375px;
     max-width: 500px;
     background: var(--clr-greyLight-1);

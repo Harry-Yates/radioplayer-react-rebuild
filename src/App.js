@@ -25,7 +25,7 @@ function App() {
                         <Label id='164' />
                         <RadioPlayerUpper id='164' />
                         <Artwork search='band' />
-                        <Weather location='Bagarmossen' />
+                        <Weather location='Taby' />
                         <RadioPlayerLower id2='164' />
                         <Player
                             isHidden={isHidden}

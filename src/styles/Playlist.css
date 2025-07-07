@@ -12,14 +12,24 @@
     min-width: 375px;
     max-width: 450px;
     background: var(--clr-greyLight-1);
-    border-radius: 3rem;
+    border-radius: 2rem;
     box-shadow: 0.8rem 0.8rem 1.4rem var(--clr-greyLight-2),
         -0.2rem -0.2rem 1.8rem var(--clr-white);
     overflow: hidden;
     margin-left: 4rem;
     justify-content: center;
     align-items: center;
-    overflow-y: scroll;
+    overflow-y: auto;
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.playlist::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
 }
 
 .playlistItemContainer {
