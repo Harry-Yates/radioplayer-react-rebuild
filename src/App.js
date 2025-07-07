@@ -44,8 +44,8 @@ function App() {
         // Initial fetch
         fetchCurrentSong()
         
-        // Update every 5 seconds for current track info
-        const interval = setInterval(fetchCurrentSong, 5000)
+        // Update every 30 seconds for current track info (reduced from 5 seconds)
+        const interval = setInterval(fetchCurrentSong, 30000)
         
         return () => clearInterval(interval)
     }, [selectedStation])
