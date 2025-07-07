@@ -243,6 +243,7 @@ button {
     justify-content: center;
     align-items: center;
     margin-top: 1rem;
+    position: relative;
 }
 
 .album-container .dot {
@@ -251,7 +252,7 @@ button {
     position: absolute;
     border-radius: 50%;
     background-color: var(--clr-greyLight-1);
-    z-index: 1;
+    z-index: 2;
     box-shadow: var(--clr-text-inner-shadow);
 }
 
@@ -269,6 +270,7 @@ button {
     background-image: no-repeat-y;
     box-shadow: 0.3rem 0.3rem 0.6rem var(--clr-greyLight-2),
         -0.2rem -0.2rem 0.5rem var(--clr-white);
+    z-index: 1;
 }
 
 .album-container>img.spinning {
@@ -528,6 +530,57 @@ button {
 
     50% {
         opacity: 0.7;
+    }
+}
+
+.image-description-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;
+    height: 220px;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.circular-text {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.circular-text-content {
+    font-size: 8px;
+    font-weight: var(--fw-bold);
+    fill: var(--clr-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: var(--ff-primary);
+    text-shadow: 0 0 3px var(--clr-white);
+}
+
+.loading-text {
+    fill: var(--clr-text-secondary);
+    animation: pulse 2s infinite;
+}
+
+/* Make the circular text rotate with the record when playing */
+.album-container>img.spinning~.image-description-container .circular-text {
+    animation: rotate 30s linear infinite;
+}
+
+.album-container>img.paused~.image-description-container .circular-text {
+    animation-play-state: paused;
+}
+
+/* Responsive adjustments */
+@media only screen and (min-width: 320px) and (max-width: 568px) {
+    .circular-text-content {
+        font-size: 6px;
+        letter-spacing: 0.5px;
     }
 }
 

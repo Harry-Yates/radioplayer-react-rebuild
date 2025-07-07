@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "./styles/main.css"
 import "./styles/Playlist.css"
 import Switch from "./components/Switch"
@@ -16,6 +16,65 @@ function App() {
     const [isHidden, setIsHidden] = useState(true)
     const [isPlaying, setIsPlaying] = useState(false)
     const [selectedStation, setSelectedStation] = useState("164") // Default to P3
+    const [currentSong, setCurrentSong] = useState(null)
+
+    // Fetch current song data
+    useEffect(() => {
+        if (!selectedStation) return
+        
+        const fetchCurrentSong = async () => {
+            try {
+                const response = await fetch(
+                    `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${selectedStation}&format=json`
+                )
+                const data = await response.json()
+                
+                if (data.song && data.song[0]) {
+                    setCurrentSong(data.song[0])
+                }
+            } catch (error) {
+                console.error('Failed to fetch current song:', error)
+            }
+        }
+
+        // Initial fetch
+        fetchCurrentSong()
+        
+        // Update every 10 seconds
+        const interval = setInterval(fetchCurrentSong, 10000)
+        
+        return () => clearInterval(interval)
+    }, [selectedStation])
+
+    // Create search query from song data
+    const getArtworkSearchQuery = () => {
+        if (!currentSong) return 'music vinyl'
+        
+        const { title, artist } = currentSong
+        
+        // Clean up the search query - remove common words that might not work well
+        const cleanQuery = (text) => {
+            if (!text) return ''
+            return text
+                .replace(/[^\w\s]/g, ' ') // Remove special characters
+                .replace(/\b(feat|ft|featuring|remix|edit|version|live|acoustic|radio|mix)\b/gi, '') // Remove common music terms
+                .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+                .trim()
+        }
+        
+        const cleanTitle = cleanQuery(title)
+        const cleanArtist = cleanQuery(artist)
+        
+        // Prefer artist name if available, otherwise use song title
+        if (cleanArtist && cleanArtist.length > 2) {
+            return cleanArtist
+        } else if (cleanTitle && cleanTitle.length > 2) {
+            return cleanTitle
+        }
+        
+        // Fallback searches
+        return 'music album cover'
+    }
 
     return (
         <div className='App'>
@@ -31,8 +90,12 @@ function App() {
                             onStationChange={setSelectedStation}
                         />
                         <RadioPlayerUpper id={selectedStation} />
-                        <Artwork search='band' isPlaying={isPlaying} />
-                        <Weather location='Bagarmossen' />
+                        <Artwork 
+                            search={getArtworkSearchQuery()} 
+                            isPlaying={isPlaying}
+                            currentSong={currentSong}
+                        />
+                        <Weather location='Taby' />
                         <RadioPlayerLower id2={selectedStation} />
                         <Player
                             isHidden={isHidden}
