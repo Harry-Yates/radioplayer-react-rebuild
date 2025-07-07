@@ -1,7 +1,7 @@
 import React from "react"
 import "../styles/main.css"
 
-export default function RadioPlayerUpper({ id, currentSong }) {
+export default function RadioPlayerUpper({ id, currentSong, previousSong, nextSong }) {
     if (!currentSong) {
         return (
             <div className='songDetails'>
@@ -23,15 +23,13 @@ export default function RadioPlayerUpper({ id, currentSong }) {
         <div className='songDetails'>
             <br></br>
             <span className='currently-playing-artist-previous'>
-                {/* Previous artist not available in rightnow API */}
-                LIVE
+                {previousSong ? (previousSong.artist || "PREVIOUS") : "LIVE"}
             </span>
             <span className='currently-playing-artist'>
                 {currentSong.artist || "SVENSKA RADIO"}
             </span>
             <span className='currently-playing-artist-next'>
-                {/* Next artist not available in rightnow API */}
-                RADIO
+                {nextSong ? (nextSong.artist || "NEXT") : "RADIO"}
             </span>
         </div>
     )

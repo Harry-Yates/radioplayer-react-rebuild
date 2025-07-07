@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import "../styles/main.css"
 
-export default function RadioPlayerLower({ id2, currentSong }) {
+export default function RadioPlayerLower({ id2, currentSong, previousSong, nextSong }) {
     if (!currentSong) {
         return (
             <div className='songDetails'>
@@ -23,13 +23,13 @@ export default function RadioPlayerLower({ id2, currentSong }) {
                 className='currently-playing'
                 aria-label='Currently playing'>
                 <span className='currently-playing-song-previous'>
-                    LIVE
+                    {previousSong ? (previousSong.title || "PREVIOUS") : "LIVE"}
                 </span>
                 <span className='currently-playing-song'>
                     {currentSong.title || "SVENSKA RADIO"}
                 </span>
                 <span className='currently-playing-song-next'>
-                    NOW
+                    {nextSong ? (nextSong.title || "NEXT") : "NOW"}
                 </span>
             </div>
         </>

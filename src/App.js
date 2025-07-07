@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import "./styles/main.css"
 import "./styles/Playlist.css"
 import Switch from "./components/Switch"
-import Label from "./components/Label"
 import Artwork from "./components/Artwork"
 import Player from "./components/Player"
 import Weather from "./components/Weather"
@@ -17,46 +16,88 @@ function App() {
     const [isPlaying, setIsPlaying] = useState(false)
     const [selectedStation, setSelectedStation] = useState("164") // Default to P3
     const [currentSong, setCurrentSong] = useState(null)
+    const [previousSong, setPreviousSong] = useState(null)
+    const [nextSong, setNextSong] = useState(null)
 
-    // Fetch current song data using the "rightnow" API
+    // Fetch current song data and playlist to get previous/next songs
     useEffect(() => {
         if (!selectedStation) return
         
-        const fetchCurrentSong = async () => {
+        const fetchSongData = async () => {
             try {
-                console.log('Fetching current song...', new Date().toLocaleTimeString())
+                console.log('Fetching song data...', new Date().toLocaleTimeString())
                 const startTime = Date.now()
                 
-                const response = await fetch(
-                    `https://api.sr.se/api/v2/playlists/rightnow?format=json&channelid=${selectedStation}`
-                )
-                const data = await response.json()
+                // Fetch both current song and playlist data
+                const [currentResponse, playlistResponse] = await Promise.all([
+                    fetch(`https://api.sr.se/api/v2/playlists/rightnow?format=json&channelid=${selectedStation}`),
+                    fetch(`https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${selectedStation}&format=json`)
+                ])
+                
+                const currentData = await currentResponse.json()
+                const playlistData = await playlistResponse.json()
                 
                 const fetchTime = Date.now() - startTime
-                console.log(`Current song fetch completed in ${fetchTime}ms`)
+                console.log(`Song data fetch completed in ${fetchTime}ms`)
                 
                 // Extract current song from the rightnow API response
-                if (data.playlist && data.playlist.song) {
-                    setCurrentSong(data.playlist.song)
-                    console.log('Current song updated:', data.playlist.song.title)
+                if (currentData.playlist && currentData.playlist.song) {
+                    setCurrentSong(currentData.playlist.song)
+                    console.log('Current song updated:', currentData.playlist.song.title)
                 } else {
                     setCurrentSong(null)
                     console.log('No current song data available')
                 }
+                
+                // Extract previous and next songs from playlist
+                if (playlistData.song && playlistData.song.length > 0) {
+                    const songs = playlistData.song
+                    
+                    // Find current song in playlist (it's usually the first one)
+                    let currentIndex = 0
+                    if (currentData.playlist && currentData.playlist.song) {
+                        const currentSongFromAPI = currentData.playlist.song
+                        const foundIndex = songs.findIndex(song => 
+                            song.title === currentSongFromAPI.title && 
+                            song.artist === currentSongFromAPI.artist
+                        )
+                        if (foundIndex !== -1) {
+                            currentIndex = foundIndex
+                        }
+                    }
+                    
+                    // Set previous song (next in the list, as it's reverse chronological)
+                    if (currentIndex + 1 < songs.length) {
+                        setPreviousSong(songs[currentIndex + 1])
+                        console.log('Previous song updated:', songs[currentIndex + 1].title)
+                    } else {
+                        setPreviousSong(null)
+                    }
+                    
+                    // Set next song (this is trickier for live radio, but we can show upcoming if available)
+                    if (currentIndex > 0) {
+                        setNextSong(songs[currentIndex - 1])
+                        console.log('Next song updated:', songs[currentIndex - 1].title)
+                    } else {
+                        setNextSong(null)
+                    }
+                } else {
+                    setPreviousSong(null)
+                    setNextSong(null)
+                }
             } catch (error) {
-                console.error('Failed to fetch current song:', error)
+                console.error('Failed to fetch song data:', error)
                 setCurrentSong(null)
+                setPreviousSong(null)
+                setNextSong(null)
             }
         }
 
- 
-        fetchCurrentSong()
-  
-        const interval = setInterval(fetchCurrentSong, 15000)
+        fetchSongData()
+        const interval = setInterval(fetchSongData, 15000)
         
         return () => clearInterval(interval)
     }, [selectedStation])
-
 
     const getArtworkSearchQuery = () => {
         if (!currentSong) return 'music vinyl'
@@ -75,14 +116,12 @@ function App() {
         const cleanTitle = cleanQuery(title)
         const cleanArtist = cleanQuery(artist)
         
- 
         if (cleanArtist && cleanArtist.length > 2) {
             return cleanArtist
         } else if (cleanTitle && cleanTitle.length > 2) {
             return cleanTitle
         }
         
- 
         return 'music album cover'
     }
 
@@ -102,6 +141,8 @@ function App() {
                         <RadioPlayerUpper 
                             id={selectedStation} 
                             currentSong={currentSong}
+                            previousSong={previousSong}
+                            nextSong={nextSong}
                         />
                         <Artwork 
                             search={getArtworkSearchQuery()} 
@@ -112,6 +153,8 @@ function App() {
                         <RadioPlayerLower 
                             id2={selectedStation}
                             currentSong={currentSong}
+                            previousSong={previousSong}
+                            nextSong={nextSong}
                         />
                         <Player
                             isHidden={isHidden}
