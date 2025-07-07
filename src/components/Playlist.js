@@ -2,141 +2,139 @@ import React, { useState, useEffect } from "react"
 import "../styles/main.css"
 import "../styles/Playlist.css"
 
-function Playlist() {
+function Playlist({ id3 }) {
     const [channel, setChannel] = useState([])
-
-    // STATE = How to write a variable in REACT, it's like short term memory for REACT.
-    // https://disease.sh/v3/covid-19/channel
-
-    // USEEFFECT  = Runs a piece of code based on a given conditional variable
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
+        if (!id3) return
+        
+        setLoading(true)
         const interval = setInterval(() => {
-            const getchannelData = async () => {
-                await fetch(
-                    `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=164&format=json`,
-                )
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("API data", data)
-                        const channel = data.song.map(channel => ({
-                            name: channel.title,
-                            artist: channel.artist,
+            const fetchPlaylistData = async () => {
+                try {
+                    const response = await fetch(
+                        `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id3}&format=json`
+                    )
+                    const data = await response.json()
+                    
+                    if (data.song) {
+                        const formattedSongs = data.song.map(song => ({
+                            name: song.title || "Unknown Song",
+                            artist: song.artist || "Unknown Artist",
+                            description: song.description || "",
+                            albumname: song.albumname || "",
                         }))
-                        console.log("Songs", channel)
-                        setChannel(channel)
-                    })
+                        setChannel(formattedSongs)
+                    }
+                    setLoading(false)
+                } catch (err) {
+                    console.error("Failed to fetch playlist:", err)
+                    setError(err)
+                    setLoading(false)
+                }
             }
-            getchannelData()
-        }, 1000)
+            fetchPlaylistData()
+        }, 5000) // Update every 5 seconds
+
+   
+        const fetchPlaylistData = async () => {
+            try {
+                const response = await fetch(
+                    `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id3}&format=json`
+                )
+                const data = await response.json()
+                
+                if (data.song) {
+                    const formattedSongs = data.song.map(song => ({
+                        name: song.title || "Unknown Song",
+                        artist: song.artist || "Unknown Artist",
+                        description: song.description || "",
+                        albumname: song.albumname || "",
+                    }))
+                    setChannel(formattedSongs)
+                }
+                setLoading(false)
+            } catch (err) {
+                console.error("Failed to fetch playlist:", err)
+                setError(err)
+                setLoading(false)
+            }
+        }
+        fetchPlaylistData()
+
         return () => clearInterval(interval)
-    }, [])
-    if (!channel) return null
-    if (channel) {
+    }, [id3])
+
+    if (loading) {
         return (
             <div className='playlist'>
                 <div className='playlistItemContainer'>
-                    <div variant='outlined' value='abc'>
-                        <h4 class='playlist-title'>
-                            PLAYLIST ({channel.length} SONGS)
-                        </h4>
-                        {channel.map((channel, index) => (
-                            <div className='playlistItem'>
-                                <span>{index + 1}</span>
-                                <div className='playlistItem-detail'>
-                                    <span>Song: </span>
-                                    {channel.name}
-                                </div>
-                                <div className='playlistItem-detail'>
-                                    <span>Artist: </span>
-                                    {channel.artist}
-                                </div>
-                            </div>
-                        ))}
+                    <h4 className='playlist-title'>LOADING PLAYLIST...</h4>
+                    <div className='playlistItem'>
+                        <div className='playlistItem-detail'>
+                            Fetching latest tracks...
+                        </div>
                     </div>
                 </div>
             </div>
         )
     }
-    return <div></div>
+
+    if (error) {
+        return (
+            <div className='playlist'>
+                <div className='playlistItemContainer'>
+                    <h4 className='playlist-title'>ERROR LOADING PLAYLIST</h4>
+                    <div className='playlistItem'>
+                        <div className='playlistItem-detail'>
+                            Failed to load playlist data
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    if (!channel || channel.length === 0) {
+        return (
+            <div className='playlist'>
+                <div className='playlistItemContainer'>
+                    <h4 className='playlist-title'>NO TRACKS AVAILABLE</h4>
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div className='playlist'>
+            <div className='playlistItemContainer'>
+                <h4 className='playlist-title'>
+                    PLAYLIST ({channel.length} SONGS)
+                </h4>
+                {channel.map((song, index) => (
+                    <div key={index} className='playlistItem'>
+                        <span className='track-number'>{index + 1}</span>
+                        <div className='playlistItem-detail'>
+                            <span className='track-label'>Song: </span>
+                            <span className='track-name'>{song.name}</span>
+                        </div>
+                        <div className='playlistItem-detail'>
+                            <span className='track-label'>Artist: </span>
+                            <span className='track-artist'>{song.artist}</span>
+                        </div>
+                        {song.albumname && (
+                            <div className='playlistItem-detail'>
+                                <span className='track-label'>Album: </span>
+                                <span className='track-album'>{song.albumname}</span>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
 }
 
 export default Playlist
-
-// import React, { useState, useEffect } from "react"
-// import "../styles/main.css"
-// import "../styles/Playlist.css"
-
-// export default function Playlist({ id3 }) {
-//     const [channelData, setChannelData] = useState(null)
-
-//     useEffect(() => {
-//         const interval = setInterval(() => {
-//             fetch(
-//                 `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id3}&format=json`,
-//             )
-//                 .then(response => response.json())
-//                 .then(setChannelData)
-//         }, 1000)
-//         return () => clearInterval(interval)
-//     }, [id3])
-
-//     if (!channelData) return null
-//     if (channelData) {
-//         return (
-//             <div className='playlist'>
-//                 <div className='playlistItemContainer'>
-//                     <div className='playlistItem'>
-//                         <span>1</span>
-//                         <div className='playlistItem-detail'>
-//                             <span>Song: </span>
-//                             {channelData.song?.[0]?.title}
-//                         </div>
-//                         <div className='playlistItem-detail'>
-//                             <span>Artist: </span>
-//                             {channelData.song?.[0]?.artist}
-//                         </div>
-//                         <hr className='hr'></hr>
-//                     </div>
-//                     <div className='playlistItem'>
-//                         <span>2</span>
-//                         <div className='playlistItem-detail'>
-//                             <span>Song: </span>
-//                             {channelData.song?.[1]?.title}
-//                         </div>
-//                         <div className='playlistItem-detail'>
-//                             <span>Artist: </span>
-//                             {channelData.song?.[1]?.artist}
-//                         </div>
-//                         <hr className='hr'></hr>
-//                     </div>
-//                     <div className='playlistItem'>
-//                         <span>3</span>
-//                         <div className='playlistItem-detail'>
-//                             <span>Song: </span>
-//                             {channelData.song?.[2]?.title}
-//                         </div>
-//                         <div className='playlistItem-detail'>
-//                             <span>Artist: </span>
-//                             {channelData.song?.[2]?.artist}
-//                         </div>
-//                         <hr className='hr'></hr>
-//                     </div>
-//                     <div className='playlistItem'>
-//                         <span>4</span>
-//                         <div className='playlistItem-detail'>
-//                             <span>Song: </span>
-//                             {channelData.song?.[3]?.title}
-//                         </div>
-//                         <div className='playlistItem-detail'>
-//                             <span>Artist: </span>
-//                             {channelData.song?.[3]?.artist}
-//                         </div>
-//                         <hr className='hr'></hr>
-//                     </div>
-//                 </div>
-//             </div>
-//         )
-//     }
-//     return <div></div>
-// }

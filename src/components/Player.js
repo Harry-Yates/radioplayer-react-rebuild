@@ -8,9 +8,8 @@ import { BsFillMusicPlayerFill } from "react-icons/bs"
 import { FaPlay } from "react-icons/fa"
 import { FaPause } from "react-icons/fa"
 
-const Player = ({ isHidden, setIsHidden }) => {
+const Player = ({ isHidden, setIsHidden, isPlaying, setIsPlaying, stationId }) => {
     // state
-    const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState(0)
     const [currentTime, setCurrentTime] = useState(0)
 
@@ -20,10 +19,48 @@ const Player = ({ isHidden, setIsHidden }) => {
     const animationRef = useRef() // reference the animation
 
     useEffect(() => {
-        const seconds = Math.floor(player.current.duration)
-        setDuration(seconds)
-        progressBar.current.max = seconds
+        if (player.current && !isNaN(player.current.duration)) {
+            const seconds = Math.floor(player.current.duration)
+            setDuration(seconds)
+            if (progressBar.current) {
+                progressBar.current.max = seconds
+            }
+        }
     }, [player?.current?.loadedmetadata, player?.current?.readyState])
+
+    useEffect(() => {
+        if (player.current && stationId) {
+            const wasPlaying = isPlaying
+            
+        
+            if (wasPlaying) {
+                player.current.pause()
+                cancelAnimationFrame(animationRef.current)
+            }
+            
+            player.current.src = `https://sverigesradio.se/topsy/direkt/srapi/${stationId}.mp3`
+            player.current.load()
+            
+    
+            if (progressBar.current) {
+                progressBar.current.value = 0
+                setCurrentTime(0)
+            }
+            
+
+            if (wasPlaying) {
+               
+                setTimeout(() => {
+                    player.current.play().then(() => {
+                        animationRef.current = requestAnimationFrame(whilePlaying)
+                    }).catch(error => {
+                        console.log("Playback failed:", error)
+                        setIsPlaying(false)
+                    })
+                }, 100)
+            }
+        }
+    }, [stationId])
 
     const calculateTime = secs => {
         const minutes = Math.floor(secs / 60)
@@ -48,36 +85,44 @@ const Player = ({ isHidden, setIsHidden }) => {
     }
 
     const whilePlaying = () => {
-        progressBar.current.value = player.current.currentTime
-        changePlayerCurrentTime()
-        animationRef.current = requestAnimationFrame(whilePlaying)
+        if (progressBar.current && player.current) {
+            progressBar.current.value = player.current.currentTime
+            changePlayerCurrentTime()
+            animationRef.current = requestAnimationFrame(whilePlaying)
+        }
     }
 
     const changeRange = () => {
-        player.current.currentTime = progressBar.current.value
-        changePlayerCurrentTime()
+        if (player.current && progressBar.current) {
+            player.current.currentTime = progressBar.current.value
+            changePlayerCurrentTime()
+        }
     }
 
     const changePlayerCurrentTime = () => {
-        progressBar.current.style.setProperty(
-            "--seek-before-width",
-            `${(progressBar.current.value / duration) * 90}%`,
-        )
-        setCurrentTime(progressBar.current.value)
+        if (progressBar.current && duration > 0) {
+            progressBar.current.style.setProperty(
+                "--seek-before-width",
+                `${(progressBar.current.value / duration) * 90}%`,
+            )
+            setCurrentTime(progressBar.current.value)
+        }
     }
 
     const backThirty = () => {
-        progressBar.current.value = Number(
-            progressBar.current.value - 10,
-        )
-        changeRange()
+        if (progressBar.current) {
+            progressBar.current.value = Number(
+                progressBar.current.value - 10,
+            )
+            changeRange()
+        }
     }
 
     return (
         <div className={"player"}>
             <audio
                 ref={player}
-                src='https://sverigesradio.se/topsy/direkt/srapi/164.mp3'
+                src={`https://sverigesradio.se/topsy/direkt/srapi/${stationId}.mp3`}
                 preload='metadata'></audio>
 
             <div className={"playerContainer"}>
@@ -98,7 +143,7 @@ const Player = ({ isHidden, setIsHidden }) => {
                 </div>
 
                 {/* duration */}
-                <div className={"duration"}>Infinity:🚀</div>
+                <div className={"duration"}>Live 📻</div>
             </div>
 
             <div className={"buttonContainer"}>

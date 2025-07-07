@@ -269,7 +269,14 @@ button {
     background-image: no-repeat-y;
     box-shadow: 0.3rem 0.3rem 0.6rem var(--clr-greyLight-2),
         -0.2rem -0.2rem 0.5rem var(--clr-white);
+}
+
+.album-container>img.spinning {
     animation: rotate 30s linear infinite;
+}
+
+.album-container>img.paused {
+    animation-play-state: paused;
 }
 
 .album__holder {
@@ -433,6 +440,95 @@ button {
 .intern {
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+.station-selector-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+.station-selector {
+    background: var(--clr-greyLight-1);
+    border: none;
+    border-radius: 1rem;
+    padding: 0.8rem 1.2rem;
+    font-size: var(--fs-medium);
+    font-weight: var(--fw-bolder);
+    color: var(--clr-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: var(--clr-text-inner-shadow);
+    cursor: pointer;
+    outline: none;
+    min-width: 180px;
+    text-align: center;
+    font-family: var(--ff-primary);
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236d5dfc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-right: 3rem;
+}
+
+.station-selector:hover {
+    box-shadow: 0.2rem 0.2rem 0.4rem var(--clr-greyLight-2),
+        -0.1rem -0.1rem 0.3rem var(--clr-white);
+    transform: translateY(-1px);
+}
+
+.station-selector:focus {
+    box-shadow: inset 0.1rem 0.1rem 0.3rem var(--clr-greyLight-2),
+        inset -0.1rem -0.1rem 0.3rem var(--clr-white),
+        0 0 0 2px var(--clr-primary);
+}
+
+.station-selector:active {
+    box-shadow: inset 0.2rem 0.2rem 0.5rem var(--clr-greyLight-2),
+        inset -0.2rem -0.2rem 0.5rem var(--clr-white);
+    transform: translateY(1px);
+}
+
+.station-selector.loading {
+    color: var(--clr-text-secondary);
+    cursor: not-allowed;
+    animation: pulse 2s infinite;
+}
+
+.station-selector.error {
+    color: #ff6b6b;
+    cursor: not-allowed;
+}
+
+/* Style the dropdown options */
+.station-selector option {
+    background: var(--clr-greyLight-1);
+    color: var(--clr-text-primary);
+    padding: 0.5rem;
+    font-weight: var(--fw-bold);
+}
+
+.station-selector option:checked {
+    background: var(--clr-primary);
+    color: var(--clr-white);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
 }
 
 /*# sourceMappingURL=main.css.map */

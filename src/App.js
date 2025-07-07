@@ -9,10 +9,14 @@ import Weather from "./components/Weather"
 import Playlist from "./components/Playlist"
 import RadioPlayerUpper from "./components/RadioPlayerUpper"
 import RadioPlayerLower from "./components/RadioPlayerLower"
+import StationSelector from "./components/StationSelector"
 
 function App() {
     const [isToggled, setIsToggled] = useState(false)
     const [isHidden, setIsHidden] = useState(true)
+    const [isPlaying, setIsPlaying] = useState(false)
+    const [selectedStation, setSelectedStation] = useState("164") // Default to P3
+
     return (
         <div className='App'>
             <div className={isToggled ? "dark" : "light"}>
@@ -22,18 +26,24 @@ function App() {
                             isToggled={isToggled}
                             onToggle={() => setIsToggled(!isToggled)}
                         />
-                        <Label id='164' />
-                        <RadioPlayerUpper id='164' />
-                        <Artwork search='band' />
-                        <Weather location='Taby' />
-                        <RadioPlayerLower id2='164' />
+                        <StationSelector 
+                            selectedStation={selectedStation}
+                            onStationChange={setSelectedStation}
+                        />
+                        <RadioPlayerUpper id={selectedStation} />
+                        <Artwork search='band' isPlaying={isPlaying} />
+                        <Weather location='Bagarmossen' />
+                        <RadioPlayerLower id2={selectedStation} />
                         <Player
                             isHidden={isHidden}
                             setIsHidden={() => setIsHidden(!isHidden)}
+                            isPlaying={isPlaying}
+                            setIsPlaying={setIsPlaying}
+                            stationId={selectedStation}
                         />
                     </div>
                     <div className={isHidden ? "hidden" : ""}>
-                        <Playlist id3='164' />
+                        <Playlist id3={selectedStation} />
                     </div>
                 </main>
             </div>
