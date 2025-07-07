@@ -24,16 +24,24 @@ function App() {
         
         const fetchCurrentSong = async () => {
             try {
+                console.log('Fetching current song...', new Date().toLocaleTimeString())
+                const startTime = Date.now()
+                
                 const response = await fetch(
                     `https://api.sr.se/api/v2/playlists/rightnow?format=json&channelid=${selectedStation}`
                 )
                 const data = await response.json()
                 
+                const fetchTime = Date.now() - startTime
+                console.log(`Current song fetch completed in ${fetchTime}ms`)
+                
                 // Extract current song from the rightnow API response
                 if (data.playlist && data.playlist.song) {
                     setCurrentSong(data.playlist.song)
+                    console.log('Current song updated:', data.playlist.song.title)
                 } else {
                     setCurrentSong(null)
+                    console.log('No current song data available')
                 }
             } catch (error) {
                 console.error('Failed to fetch current song:', error)
@@ -41,42 +49,40 @@ function App() {
             }
         }
 
-        // Initial fetch
+ 
         fetchCurrentSong()
-        
-        // Update every 30 seconds for current track info (reduced from 5 seconds)
-        const interval = setInterval(fetchCurrentSong, 30000)
+  
+        const interval = setInterval(fetchCurrentSong, 15000)
         
         return () => clearInterval(interval)
     }, [selectedStation])
 
-    // Create search query from song data
+
     const getArtworkSearchQuery = () => {
         if (!currentSong) return 'music vinyl'
         
         const { title, artist } = currentSong
-        
-        // Clean up the search query - remove common words that might not work well
+    
         const cleanQuery = (text) => {
             if (!text) return ''
             return text
-                .replace(/[^\w\s]/g, ' ') // Remove special characters
-                .replace(/\b(feat|ft|featuring|remix|edit|version|live|acoustic|radio|mix)\b/gi, '') // Remove common music terms
-                .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+                .replace(/[^\w\s]/g, ' ') 
+                .replace(/\b(feat|ft|featuring|remix|edit|version|live|acoustic|radio|mix)\b/gi, '') 
+                .replace(/\s+/g, ' ') 
                 .trim()
         }
         
         const cleanTitle = cleanQuery(title)
         const cleanArtist = cleanQuery(artist)
         
-        // Prefer artist name if available, otherwise use song title
+ 
         if (cleanArtist && cleanArtist.length > 2) {
             return cleanArtist
         } else if (cleanTitle && cleanTitle.length > 2) {
             return cleanTitle
         }
         
-        // Fallback searches
+ 
         return 'music album cover'
     }
 

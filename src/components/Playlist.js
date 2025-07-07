@@ -14,10 +14,16 @@ function Playlist({ id3, currentSong }) {
         const interval = setInterval(() => {
             const fetchPlaylistData = async () => {
                 try {
+                    console.log('Fetching playlist data (interval)...', new Date().toLocaleTimeString())
+                    const startTime = Date.now()
+                    
                     const response = await fetch(
                         `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id3}&format=json`
                     )
                     const data = await response.json()
+                    
+                    const fetchTime = Date.now() - startTime
+                    console.log(`Playlist fetch (interval) completed in ${fetchTime}ms`)
                     
                     if (data.song) {
                         // Skip the first song if it matches current song to avoid duplicates
@@ -37,6 +43,7 @@ function Playlist({ id3, currentSong }) {
                             isPlaying: false
                         }))
                         setRecentTracks(formattedSongs)
+                        console.log(`Playlist updated (interval) with ${formattedSongs.length} tracks`)
                     }
                     setLoading(false)
                 } catch (err) {
@@ -46,18 +53,24 @@ function Playlist({ id3, currentSong }) {
                 }
             }
             fetchPlaylistData()
-        }, 10000) // Update every 10 seconds
+        }, 15000) 
 
-        // Initial fetch
+ 
         const fetchPlaylistData = async () => {
             try {
+                console.log('Fetching playlist data...', new Date().toLocaleTimeString())
+                const startTime = Date.now()
+                
                 const response = await fetch(
                     `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id3}&format=json`
                 )
                 const data = await response.json()
                 
+                const fetchTime = Date.now() - startTime
+                console.log(`Playlist fetch completed in ${fetchTime}ms`)
+                
                 if (data.song) {
-                    // Skip the first song if it matches current song to avoid duplicates
+                  
                     const filteredSongs = data.song.filter((song, index) => {
                         if (index === 0 && currentSong) {
                             return !(song.title === currentSong.title && song.artist === currentSong.artist)
@@ -73,6 +86,7 @@ function Playlist({ id3, currentSong }) {
                         isPlaying: false
                     }))
                     setRecentTracks(formattedSongs)
+                    console.log(`Playlist updated with ${formattedSongs.length} tracks`)
                 }
                 setLoading(false)
             } catch (err) {
@@ -84,7 +98,7 @@ function Playlist({ id3, currentSong }) {
         fetchPlaylistData()
 
         return () => clearInterval(interval)
-    }, [id3, currentSong])
+    }, [id3]) 
 
     if (loading) {
         return (
