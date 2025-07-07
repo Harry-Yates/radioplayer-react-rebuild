@@ -7,8 +7,8 @@
 .playlist {
     display: flex;
     flex-direction: column;
-    height: 80vh;
-    min-height: 896px;
+    height: 900px;
+    min-height: 400px;
     min-width: 375px;
     max-width: 450px;
     background: var(--clr-greyLight-1);
