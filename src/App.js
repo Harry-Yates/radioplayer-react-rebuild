@@ -18,30 +18,34 @@ function App() {
     const [selectedStation, setSelectedStation] = useState("164") // Default to P3
     const [currentSong, setCurrentSong] = useState(null)
 
-    // Fetch current song data
+    // Fetch current song data using the "rightnow" API
     useEffect(() => {
         if (!selectedStation) return
         
         const fetchCurrentSong = async () => {
             try {
                 const response = await fetch(
-                    `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${selectedStation}&format=json`
+                    `https://api.sr.se/api/v2/playlists/rightnow?format=json&channelid=${selectedStation}`
                 )
                 const data = await response.json()
                 
-                if (data.song && data.song[0]) {
-                    setCurrentSong(data.song[0])
+                // Extract current song from the rightnow API response
+                if (data.playlist && data.playlist.song) {
+                    setCurrentSong(data.playlist.song)
+                } else {
+                    setCurrentSong(null)
                 }
             } catch (error) {
                 console.error('Failed to fetch current song:', error)
+                setCurrentSong(null)
             }
         }
 
         // Initial fetch
         fetchCurrentSong()
         
-        // Update every 10 seconds
-        const interval = setInterval(fetchCurrentSong, 10000)
+        // Update every 5 seconds for current track info
+        const interval = setInterval(fetchCurrentSong, 5000)
         
         return () => clearInterval(interval)
     }, [selectedStation])
@@ -89,14 +93,20 @@ function App() {
                             selectedStation={selectedStation}
                             onStationChange={setSelectedStation}
                         />
-                        <RadioPlayerUpper id={selectedStation} />
+                        <RadioPlayerUpper 
+                            id={selectedStation} 
+                            currentSong={currentSong}
+                        />
                         <Artwork 
                             search={getArtworkSearchQuery()} 
                             isPlaying={isPlaying}
                             currentSong={currentSong}
                         />
                         <Weather location='Taby' />
-                        <RadioPlayerLower id2={selectedStation} />
+                        <RadioPlayerLower 
+                            id2={selectedStation}
+                            currentSong={currentSong}
+                        />
                         <Player
                             isHidden={isHidden}
                             setIsHidden={() => setIsHidden(!isHidden)}
@@ -106,7 +116,10 @@ function App() {
                         />
                     </div>
                     <div className={isHidden ? "hidden" : ""}>
-                        <Playlist id3={selectedStation} />
+                        <Playlist 
+                            id3={selectedStation} 
+                            currentSong={currentSong}
+                        />
                     </div>
                 </main>
             </div>

@@ -1,27 +1,8 @@
 import React, { useState, useEffect } from "react"
 import "../styles/main.css"
 
-export default function RadioPlayerLower({ id2 }) {
-    const [audioDataSong, setAudioDataSong] = useState(null)
-    const [loading, setLoading] = useState(null)
-    const [error, setError] = useState(null)
-
-    useEffect(() => {
-        if (!id2) return
-        setLoading(true)
-        const interval = setInterval(() => {
-            fetch(
-                `https://api.sr.se/api/v2/playlists/getplaylistbychannelid?id=${id2}&format=json`,
-            )
-                .then(response => response.json())
-                .then(setAudioDataSong)
-                .then(() => setLoading(false))
-                .catch(setError)
-            // console.log("Cheeky gander for Song data")
-        }, 4000)
-        return () => clearInterval(interval)
-    }, [id2])
-    if (loading)
+export default function RadioPlayerLower({ id2, currentSong }) {
+    if (!currentSong) {
         return (
             <div className='songDetails'>
                 <br></br>
@@ -34,32 +15,25 @@ export default function RadioPlayerLower({ id2 }) {
                 </span>
             </div>
         )
-    if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>
-    if (!id2) return null
-
-    if (!audioDataSong) return null
-    if (audioDataSong) {
-        return (
-            <>
-                <div
-                    className='currently-playing'
-                    aria-label='Currently playing'>
-                    <span className='currently-playing-song-previous'>
-                        {audioDataSong.song?.[1]?.title}
-                    </span>
-                    <span className='currently-playing-song'>
-                        {audioDataSong.song?.[0]?.title
-                            ? audioDataSong.song?.[0]?.title
-                            : "DJ TALKING"}
-                    </span>
-                    <span className='currently-playing-song-next'>
-                        {audioDataSong.song?.[2]?.title}
-                    </span>
-                </div>
-            </>
-        )
     }
-    return <div></div>
+
+    return (
+        <>
+            <div
+                className='currently-playing'
+                aria-label='Currently playing'>
+                <span className='currently-playing-song-previous'>
+                    LIVE
+                </span>
+                <span className='currently-playing-song'>
+                    {currentSong.title || "SVENSKA RADIO"}
+                </span>
+                <span className='currently-playing-song-next'>
+                    NOW
+                </span>
+            </div>
+        </>
+    )
 }
 
 // {

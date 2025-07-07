@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react"
 import "../styles/main.css"
 import "../styles/Playlist.css"
 
-function Playlist({ id3 }) {
-    const [channel, setChannel] = useState([])
+function Playlist({ id3, currentSong }) {
+    const [recentTracks, setRecentTracks] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
@@ -20,13 +20,23 @@ function Playlist({ id3 }) {
                     const data = await response.json()
                     
                     if (data.song) {
-                        const formattedSongs = data.song.map(song => ({
+                        // Skip the first song if it matches current song to avoid duplicates
+                        const filteredSongs = data.song.filter((song, index) => {
+                            if (index === 0 && currentSong) {
+                                // Skip if it's the same as current song
+                                return !(song.title === currentSong.title && song.artist === currentSong.artist)
+                            }
+                            return true
+                        })
+                        
+                        const formattedSongs = filteredSongs.map(song => ({
                             name: song.title || "Unknown Song",
                             artist: song.artist || "Unknown Artist",
                             description: song.description || "",
                             albumname: song.albumname || "",
+                            isPlaying: false
                         }))
-                        setChannel(formattedSongs)
+                        setRecentTracks(formattedSongs)
                     }
                     setLoading(false)
                 } catch (err) {
@@ -36,9 +46,9 @@ function Playlist({ id3 }) {
                 }
             }
             fetchPlaylistData()
-        }, 5000) // Update every 5 seconds
+        }, 10000) // Update every 10 seconds
 
-   
+        // Initial fetch
         const fetchPlaylistData = async () => {
             try {
                 const response = await fetch(
@@ -47,13 +57,22 @@ function Playlist({ id3 }) {
                 const data = await response.json()
                 
                 if (data.song) {
-                    const formattedSongs = data.song.map(song => ({
+                    // Skip the first song if it matches current song to avoid duplicates
+                    const filteredSongs = data.song.filter((song, index) => {
+                        if (index === 0 && currentSong) {
+                            return !(song.title === currentSong.title && song.artist === currentSong.artist)
+                        }
+                        return true
+                    })
+                    
+                    const formattedSongs = filteredSongs.map(song => ({
                         name: song.title || "Unknown Song",
                         artist: song.artist || "Unknown Artist",
                         description: song.description || "",
                         albumname: song.albumname || "",
+                        isPlaying: false
                     }))
-                    setChannel(formattedSongs)
+                    setRecentTracks(formattedSongs)
                 }
                 setLoading(false)
             } catch (err) {
@@ -65,7 +84,7 @@ function Playlist({ id3 }) {
         fetchPlaylistData()
 
         return () => clearInterval(interval)
-    }, [id3])
+    }, [id3, currentSong])
 
     if (loading) {
         return (
@@ -97,7 +116,24 @@ function Playlist({ id3 }) {
         )
     }
 
-    if (!channel || channel.length === 0) {
+    // Combine current song with recent tracks
+    const allTracks = []
+    
+    // Add current song at the top
+    if (currentSong && currentSong.title) {
+        allTracks.push({
+            name: currentSong.title,
+            artist: currentSong.artist || "Unknown Artist",
+            description: currentSong.description || "",
+            albumname: currentSong.albumname || "",
+            isPlaying: true
+        })
+    }
+    
+    // Add recent tracks
+    allTracks.push(...recentTracks)
+
+    if (allTracks.length === 0) {
         return (
             <div className='playlist'>
                 <div className='playlistItemContainer'>
@@ -111,13 +147,17 @@ function Playlist({ id3 }) {
         <div className='playlist'>
             <div className='playlistItemContainer'>
                 <h4 className='playlist-title'>
-                    PLAYLIST ({channel.length} SONGS)
+                    PLAYLIST ({allTracks.length} TRACKS)
                 </h4>
-                {channel.map((song, index) => (
-                    <div key={index} className='playlistItem'>
-                        <span className='track-number'>{index + 1}</span>
+                {allTracks.map((song, index) => (
+                    <div key={index} className={`playlistItem ${song.isPlaying ? 'currently-playing-track' : ''}`}>
+                        <span className='track-number'>
+                            {song.isPlaying ? '♪' : index + 1}
+                        </span>
                         <div className='playlistItem-detail'>
-                            <span className='track-label'>Song: </span>
+                            <span className='track-label'>
+                                {song.isPlaying ? 'Now Playing: ' : 'Song: '}
+                            </span>
                             <span className='track-name'>{song.name}</span>
                         </div>
                         <div className='playlistItem-detail'>
