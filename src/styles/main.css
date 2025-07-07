@@ -544,6 +544,21 @@ button {
     z-index: 3;
 }
 
+.image-description-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
 .circular-text {
     width: 100%;
     height: 100%;
@@ -555,11 +570,10 @@ button {
 .circular-text-content {
     font-size: 8px;
     font-weight: var(--fw-bold);
-    fill: var(--clr-primary);
+    fill: #ffffff;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-family: var(--ff-primary);
-    text-shadow: 0 0 3px var(--clr-white);
 }
 
 .loading-text {
